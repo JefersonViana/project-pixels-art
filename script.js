@@ -1,4 +1,4 @@
-window.onload = () => {
+
 const body = document.querySelector('body');
 const titulo = document.createElement('h1');
 body.appendChild(titulo);
@@ -15,8 +15,8 @@ button.id = 'button-random-color';
 
 for (let index = 0; index < 4; index += 1) {
   const div = document.createElement('div');
-  section.appendChild(div);
   div.className = 'color';
+  section.appendChild(div);
 }
 
 function randomColors() {
@@ -25,14 +25,31 @@ function randomColors() {
   const newColor = document.querySelectorAll('.color').length;
   for (let index = 1; index < newColor; index += 1) {
     const colorDiv = document.querySelectorAll('.color')[index];
-    
+
     for (let index1 = 0; index1 < 6; index1 += 1) {
       corGenerate += string[Math.floor(Math.random() * 16)];
       colorDiv.style.background = corGenerate;
     }
+    saveLocalStorage();
     corGenerate = '#';
   }
 }
 
-button.addEventListener('click', randomColors);
+const saveLocalStorage = () => {
+    localStorage.setItem('colorPalette', section.innerHTML);
 }
+
+const reloadColors = () => {
+  section.innerHTML = localStorage.getItem('colorPalette');
+}
+
+window.onload = () => {
+  if (localStorage.getItem('colorPalette') === null ) {
+    saveLocalStorage();
+  } else {
+    reloadColors();
+  }
+}
+
+button.addEventListener('click', randomColors);
+
