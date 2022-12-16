@@ -19,6 +19,27 @@ for (let index = 0; index < 4; index += 1) {
   section.appendChild(div);
 }
 
+const frame = document.createElement('section');
+frame.id = 'pixel-board';
+body.appendChild(frame);
+
+const pixelFrame = (quantidade) => {
+  for (let index = 0; index < quantidade; index += 1) {
+    const pixelInline = document.createElement('div');
+    pixelInline.className = 'pixel art'; // consertar isso!
+    pixelInline.style.backgroundColor = 'white';
+    for (let index1 = 0; index1 < quantidade; index1 += 1) {
+      const pixelBlock = document.createElement('div');
+      pixelBlock.className = 'pixel';
+      pixelBlock.style.backgroundColor = 'white';
+      pixelInline.appendChild(pixelBlock);
+    }
+    frame.appendChild(pixelInline);
+  }
+}
+
+pixelFrame(8);
+
 function randomColors() {
   const string = '0123456789ABCDEF';
   let corGenerate = '#';
@@ -36,7 +57,7 @@ function randomColors() {
 }
 
 const saveLocalStorage = () => {
-    localStorage.setItem('colorPalette', section.innerHTML);
+  localStorage.setItem('colorPalette', section.innerHTML);
 }
 
 const reloadColors = () => {
@@ -44,7 +65,7 @@ const reloadColors = () => {
 }
 
 window.onload = () => {
-  if (localStorage.getItem('colorPalette') === null ) {
+  if (localStorage.getItem('colorPalette') === null) {
     saveLocalStorage();
   } else {
     reloadColors();
