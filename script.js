@@ -26,7 +26,7 @@ body.appendChild(frame);
 const pixelFrame = (quantidade) => {
   for (let index = 0; index < quantidade; index += 1) {
     const pixelInline = document.createElement('div');
-    pixelInline.className = 'pixel art'; // consertar isso!
+    pixelInline.className = 'inline'; // consertar isso!
     pixelInline.style.backgroundColor = 'white';
     for (let index1 = 0; index1 < quantidade; index1 += 1) {
       const pixelBlock = document.createElement('div');
@@ -38,7 +38,7 @@ const pixelFrame = (quantidade) => {
   }
 }
 
-pixelFrame(8);
+pixelFrame(5);
 
 function randomColors() {
   const string = '0123456789ABCDEF';
