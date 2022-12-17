@@ -74,3 +74,7 @@ window.onload = () => {
 
 button.addEventListener('click', randomColors);
 
+
+const colorBlack = document.getElementsByClassName('color')[0];
+colorBlack.className = 'color selected';
+console.log(colorBlack);
