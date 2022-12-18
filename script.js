@@ -1,4 +1,3 @@
-
 const body = document.querySelector('body');
 const titulo = document.createElement('h1');
 body.appendChild(titulo);
@@ -26,7 +25,7 @@ body.appendChild(frame);
 const pixelFrame = (quantidade) => {
   for (let index = 0; index < quantidade; index += 1) {
     const pixelInline = document.createElement('div');
-    pixelInline.className = 'inline'; // consertar isso!
+    pixelInline.className = 'inline';
     pixelInline.style.backgroundColor = 'white';
     for (let index1 = 0; index1 < quantidade; index1 += 1) {
       const pixelBlock = document.createElement('div');
@@ -77,4 +76,46 @@ button.addEventListener('click', randomColors);
 
 const colorBlack = document.getElementsByClassName('color')[0];
 colorBlack.className = 'color selected';
-console.log(colorBlack);
+
+const remetente = () => {
+  let div1 = section.firstChild;
+  let div2 = section.firstChild.nextSibling;
+  let div3 = section.firstChild.nextSibling.nextSibling;
+  let div4 = section.firstChild.nextSibling.nextSibling.nextSibling;
+  let alvo = event.target;
+  if (alvo === div1) {
+    alvo.className = 'color selected';
+    div2.className = 'color';
+    div3.className = 'color';
+    div4.className = 'color';
+    console.log(div1);
+  }
+  if (alvo === div2) {
+    alvo.className = 'color selected';
+    div1.className = 'color';
+    div3.className = 'color';
+    div4.className = 'color';
+    console.log(div2);
+  }
+  if (alvo === div3) {
+    alvo.className = 'color selected';
+    div1.className = 'color';
+    div2.className = 'color';
+    div4.className = 'color';
+    console.log(div3);
+  }
+  if (alvo === div4) {
+    alvo.className = 'color selected';
+    div1.className = 'color';
+    div2.className = 'color';
+    div3.className = 'color';
+    console.log(div4);
+  }
+}
+
+section.addEventListener('click', remetente);
+
+// Somente uma das cores da paleta pode ter a classe selected de cada vez;
+
+
+// frame.addEventListener('click', remetente);
