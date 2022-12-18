@@ -38,7 +38,9 @@ const pixelFrame = (quantidade) => {
 }
 
 pixelFrame(5);
-
+let corGenerate1 = 'yellow';
+let corGenerate2 = 'blue';
+let corGenerate3 = 'red';
 function randomColors() {
   const string = '0123456789ABCDEF';
   let corGenerate = '#';
@@ -49,6 +51,13 @@ function randomColors() {
     for (let index1 = 0; index1 < 6; index1 += 1) {
       corGenerate += string[Math.floor(Math.random() * 16)];
       colorDiv.style.background = corGenerate;
+    }
+    if (index === 1) {
+      corGenerate1 = corGenerate;
+    } else if (index === 2) {
+      corGenerate2 = corGenerate;
+    } else {
+      corGenerate3 = corGenerate;
     }
     saveLocalStorage();
     corGenerate = '#';
@@ -77,6 +86,8 @@ button.addEventListener('click', randomColors);
 const colorBlack = document.getElementsByClassName('color')[0];
 colorBlack.className = 'color selected';
 
+let selectedColor = 'black';
+
 
 const remetente = (event) => {
   let div1 = section.firstChild;
@@ -89,31 +100,37 @@ const remetente = (event) => {
     div2.className = 'color';
     div3.className = 'color';
     div4.className = 'color';
+    selectedColor = 'black';
   }
   if (alvo === div2) {
     alvo.className = 'color selected';
     div1.className = 'color';
     div3.className = 'color';
     div4.className = 'color';
+    selectedColor = corGenerate1;
+    console.log(selectedColor);
   }
   if (alvo === div3) {
     alvo.className = 'color selected';
     div1.className = 'color';
     div2.className = 'color';
     div4.className = 'color';
+    selectedColor = corGenerate2;
+    console.log(alvo);
   }
   if (alvo === div4) {
     alvo.className = 'color selected';
     div1.className = 'color';
     div2.className = 'color';
     div3.className = 'color';
+    selectedColor = corGenerate3;
+    console.log(alvo);
   }
 }
 
 section.addEventListener('click', remetente);
 
-const receptor = (event) => {
-console.log(`${event.target} Humm!`);
-}
+frame.addEventListener('click', (event) => {
+  event.target.style.backgroundColor = selectedColor ;
+})
 
-frame.addEventListener('click', receptor)
