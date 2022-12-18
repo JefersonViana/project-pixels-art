@@ -12,6 +12,11 @@ body.appendChild(button);
 button.innerText = 'Cores aleatórias';
 button.id = 'button-random-color';
 
+const buttonClear = document.createElement('button');
+buttonClear.id = 'clear-board';
+buttonClear.innerText = 'Limpar';
+body.appendChild(buttonClear);
+
 for (let index = 0; index < 4; index += 1) {
   const div = document.createElement('div');
   div.className = 'color';
@@ -134,3 +139,6 @@ frame.addEventListener('click', (event) => {
   event.target.style.backgroundColor = selectedColor ;
 })
 
+buttonClear.addEventListener('click', (event) => {
+  location.reload();
+});
