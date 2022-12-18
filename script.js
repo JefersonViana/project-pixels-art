@@ -77,7 +77,8 @@ button.addEventListener('click', randomColors);
 const colorBlack = document.getElementsByClassName('color')[0];
 colorBlack.className = 'color selected';
 
-const remetente = () => {
+
+const remetente = (event) => {
   let div1 = section.firstChild;
   let div2 = section.firstChild.nextSibling;
   let div3 = section.firstChild.nextSibling.nextSibling;
@@ -88,34 +89,31 @@ const remetente = () => {
     div2.className = 'color';
     div3.className = 'color';
     div4.className = 'color';
-    console.log(div1);
   }
   if (alvo === div2) {
     alvo.className = 'color selected';
     div1.className = 'color';
     div3.className = 'color';
     div4.className = 'color';
-    console.log(div2);
   }
   if (alvo === div3) {
     alvo.className = 'color selected';
     div1.className = 'color';
     div2.className = 'color';
     div4.className = 'color';
-    console.log(div3);
   }
   if (alvo === div4) {
     alvo.className = 'color selected';
     div1.className = 'color';
     div2.className = 'color';
     div3.className = 'color';
-    console.log(div4);
   }
 }
 
 section.addEventListener('click', remetente);
 
-// Somente uma das cores da paleta pode ter a classe selected de cada vez;
+const receptor = (event) => {
+console.log(`${event.target} Humm!`);
+}
 
-
-// frame.addEventListener('click', remetente);
+frame.addEventListener('click', receptor)
