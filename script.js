@@ -69,22 +69,6 @@ function randomColors() {
   }
 }
 
-const saveLocalStorage = () => {
-  localStorage.setItem('colorPalette', section.innerHTML);
-}
-
-const reloadColors = () => {
-  section.innerHTML = localStorage.getItem('colorPalette');
-}
-
-window.onload = () => {
-  if (localStorage.getItem('colorPalette') === null) {
-    saveLocalStorage();
-  } else {
-    reloadColors();
-  }
-}
-
 button.addEventListener('click', randomColors);
 
 
@@ -105,7 +89,6 @@ const remetente = (event) => {
     div2.className = 'color';
     div3.className = 'color';
     div4.className = 'color';
-    selectedColor = 'black';
   }
   if (alvo === div2) {
     alvo.className = 'color selected';
@@ -136,9 +119,41 @@ const remetente = (event) => {
 section.addEventListener('click', remetente);
 
 frame.addEventListener('click', (event) => {
-  event.target.style.backgroundColor = selectedColor ;
+  event.target.style.backgroundColor = selectedColor;
+  saveLocalStoragePixels();
 })
 
 buttonClear.addEventListener('click', (event) => {
+  localStorage.clear();
   location.reload();
 });
+
+const saveLocalStoragePixels = () => {
+  localStorage.setItem('pixelBoard', frame.innerHTML);
+}
+const reloadPixels = () => {
+  frame.innerHTML = localStorage.getItem('pixelBoard');
+}
+
+const saveLocalStorage = () => {
+  localStorage.setItem('colorPalette', section.innerHTML);
+}
+
+const reloadColors = () => {
+  section.innerHTML = localStorage.getItem('colorPalette');
+}
+
+window.onload = () => {
+  if (localStorage.getItem('colorPalette') === null) {
+    saveLocalStorage();
+  } else {
+    reloadColors();
+  }
+  if (localStorage.getItem('pixelBoard') === null) {
+    saveLocalStoragePixels();
+    console.log(null)
+  } else {
+    reloadPixels();
+    console.log('alterado');
+  }
+}
