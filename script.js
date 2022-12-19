@@ -53,7 +53,7 @@ const pixelFrame = (quantidade) => {
   }
 }
 
-    pixelFrame(5);
+pixelFrame(5);
 let corGenerate1 = 'yellow';
 let corGenerate2 = 'blue';
 let corGenerate3 = 'red';
@@ -171,20 +171,47 @@ window.onload = () => {
 
 const inputText = document.querySelector('#board-size');
 
-console.log(inputText);
+
+const pixelFrame1 = (quantidade) => {
+  for (let index = 0; index < quantidade; index += 1) {
+    const pixelInline = document.createElement('div');
+    pixelInline.className = 'inline';
+    pixelInline.style.backgroundColor = 'white';
+    for (let index1 = 0; index1 < quantidade; index1 += 1) {
+      const pixelBlock = document.createElement('div');
+      pixelBlock.className = 'pixel';
+      pixelBlock.style.backgroundColor = 'white';
+      pixelInline.appendChild(pixelBlock);
+    }
+    frame.appendChild(pixelInline);
+  }
+}
+
+
 
 // Este código é refenrente ao requisito 13, porém não está apagando a matriz anterior!
-// const boardSize = () => {
-//   if (inputText.value == 0) {
-//     alert('Board inválido!');
-//   } else {
-//     localStorage.removeItem('colorPalette');
-//     number = inputText.value;
-//     console.log(number);
-//   }
-//   test();
-//   saveLocalStorage();
-// }
+const boardSize = () => {
+  if (inputText.value > 0) {
+    let teste = document.getElementById('pixel-board');
+    let cansado = teste.lastElementChild
+    for (let index = 0; index < 5; index += 1) {
+      teste.removeChild(cansado);
+      cansado = teste.lastElementChild;
+    }
+    if (inputText.value <= 5 ) {
+      pixelFrame1(5);
+    }
+    if (inputText.value > 5 && inputText.value <= 50) {
+      pixelFrame1(inputText.value);
+    }
+    if (inputText.value > 50) {
+      pixelFrame1(50);
+    }
+  } else {
+    alert('Board inválido!');
+  }
+  saveLocalStorage();
+}
 
 buttonInput.addEventListener('click', boardSize);
 
