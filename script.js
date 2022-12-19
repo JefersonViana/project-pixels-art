@@ -12,6 +12,17 @@ body.appendChild(button);
 button.innerText = 'Cores aleatórias';
 button.id = 'button-random-color';
 
+const input = document.createElement('input');
+input.id = 'board-size';
+input.type = 'number';
+input.min = 1;
+input.value = 0;
+const buttonInput = document.createElement('button');
+buttonInput.id = 'generate-board';
+buttonInput.innerText = 'VQV';
+body.appendChild(input);
+body.appendChild(buttonInput);
+
 const buttonClear = document.createElement('button');
 buttonClear.id = 'clear-board';
 buttonClear.innerText = 'Limpar';
@@ -42,7 +53,7 @@ const pixelFrame = (quantidade) => {
   }
 }
 
-pixelFrame(5);
+    pixelFrame(5);
 let corGenerate1 = 'yellow';
 let corGenerate2 = 'blue';
 let corGenerate3 = 'red';
@@ -157,3 +168,26 @@ window.onload = () => {
     console.log('alterado');
   }
 }
+
+const inputText = document.querySelector('#board-size');
+
+console.log(inputText);
+
+// Este código é refenrente ao requisito 13, porém não está apagando a matriz anterior!
+// const boardSize = () => {
+//   if (inputText.value == 0) {
+//     alert('Board inválido!');
+//   } else {
+//     localStorage.removeItem('colorPalette');
+//     number = inputText.value;
+//     console.log(number);
+//   }
+//   test();
+//   saveLocalStorage();
+// }
+
+buttonInput.addEventListener('click', boardSize);
+
+// else if (inputText.value < 5) {
+//   pixelFrame(5);
+// }
