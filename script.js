@@ -100,6 +100,7 @@ const remetente = (event) => {
     div2.className = 'color';
     div3.className = 'color';
     div4.className = 'color';
+    selectedColor = 'black';
   }
   if (alvo === div2) {
     alvo.className = 'color selected';
@@ -154,6 +155,14 @@ const reloadColors = () => {
   section.innerHTML = localStorage.getItem('colorPalette');
 }
 
+const saveLocalStorageBoard = () => {
+  localStorage.setItem('boardSize', inputText.value);
+}
+
+const reloadBoard = () => {
+  frame.innerHTML = localStorage.getItem('boardSize');
+}
+
 window.onload = () => {
   if (localStorage.getItem('colorPalette') === null) {
     saveLocalStorage();
@@ -166,6 +175,12 @@ window.onload = () => {
   } else {
     reloadPixels();
     console.log('alterado');
+  }
+  if (localStorage.getItem('boardSize') === null) {
+    saveLocalStorageBoard();
+  } else {
+    reloadBoard();
+    reloadPixels();
   }
 }
 
@@ -210,11 +225,9 @@ const boardSize = () => {
   } else {
     alert('Board inválido!');
   }
+  saveLocalStorageBoard();
   saveLocalStorage();
+  saveLocalStoragePixels();
 }
 
 buttonInput.addEventListener('click', boardSize);
-
-// else if (inputText.value < 5) {
-//   pixelFrame(5);
-// }
