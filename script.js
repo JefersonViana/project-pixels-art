@@ -51,19 +51,22 @@ const pixelFrame = (quantidade) => {
     }
     frame.appendChild(pixelInline);
   }
-}
+};
+
+const saveLocalStorage = () => {
+  localStorage.setItem('colorPalette', section.innerHTML);
+};
 
 pixelFrame(5);
 let corGenerate1 = 'yellow';
 let corGenerate2 = 'blue';
 let corGenerate3 = 'red';
+let corGenerate = '#';
 function randomColors() {
   const string = '0123456789ABCDEF';
-  let corGenerate = '#';
   const newColor = document.querySelectorAll('.color').length;
   for (let index = 1; index < newColor; index += 1) {
     const colorDiv = document.querySelectorAll('.color')[index];
-
     for (let index1 = 0; index1 < 6; index1 += 1) {
       corGenerate += string[Math.floor(Math.random() * 16)];
       colorDiv.style.background = corGenerate;
@@ -82,86 +85,78 @@ function randomColors() {
 
 button.addEventListener('click', randomColors);
 
-
+const selectedCor = 'color selected';
 const colorBlack = document.getElementsByClassName('color')[0];
-colorBlack.className = 'color selected';
+colorBlack.className = selectedCor;
 
 let selectedColor = 'black';
 
-
 const remetente = (event) => {
-  let div1 = section.firstChild;
-  let div2 = section.firstChild.nextSibling;
-  let div3 = section.firstChild.nextSibling.nextSibling;
-  let div4 = section.firstChild.nextSibling.nextSibling.nextSibling;
-  let alvo = event.target;
-  if (alvo === div1) {
-    alvo.className = 'color selected';
-    div2.className = 'color';
-    div3.className = 'color';
-    div4.className = 'color';
+  const alvo = event.target;
+  if (alvo === section.firstChild) {
+    alvo.className = selectedCor;
+    section.firstChild.nextSibling.className = 'color';
+    section.firstChild.nextSibling.nextSibling.className = 'color';
+    section.firstChild.nextSibling.nextSibling.nextSibling.className = 'color';
     selectedColor = 'black';
   }
-  if (alvo === div2) {
-    alvo.className = 'color selected';
-    div1.className = 'color';
-    div3.className = 'color';
-    div4.className = 'color';
+  if (alvo === section.firstChild.nextSibling) {
+    alvo.className = selectedCor;
+    section.firstChild.className = 'color';
+    section.firstChild.nextSibling.nextSibling.className = 'color';
+    section.firstChild.nextSibling.nextSibling.nextSibling.className = 'color';
     selectedColor = corGenerate1;
-    console.log(selectedColor);
   }
-  if (alvo === div3) {
-    alvo.className = 'color selected';
-    div1.className = 'color';
-    div2.className = 'color';
-    div4.className = 'color';
+  if (alvo === section.firstChild.nextSibling.nextSibling) {
+    alvo.className = selectedCor;
+    section.firstChild.className = 'color';
+    section.firstChild.nextSibling.className = 'color';
+    section.firstChild.nextSibling.nextSibling.nextSibling.className = 'color';
     selectedColor = corGenerate2;
-    console.log(alvo);
   }
-  if (alvo === div4) {
-    alvo.className = 'color selected';
-    div1.className = 'color';
-    div2.className = 'color';
-    div3.className = 'color';
+  if (alvo === section.firstChild.nextSibling.nextSibling.nextSibling) {
+    alvo.className = selectedCor;
+    section.firstChild.className = 'color';
+    section.firstChild.nextSibling.className = 'color';
+    section.firstChild.nextSibling.nextSibling.className = 'color';
     selectedColor = corGenerate3;
-    console.log(alvo);
   }
-}
+};
+
+const inputText = document.querySelector('#board-size');
+
+const saveLocalStoragePixels = () => {
+  localStorage.setItem('pixelBoard', frame.innerHTML);
+};
 
 section.addEventListener('click', remetente);
 
 frame.addEventListener('click', (event) => {
-  event.target.style.backgroundColor = selectedColor;
+  const selecionado = event.target;
+  selecionado.style.backgroundColor = selectedColor;
   saveLocalStoragePixels();
-})
+});
 
-buttonClear.addEventListener('click', (event) => {
+buttonClear.addEventListener('click', () => {
   localStorage.clear();
   location.reload();
 });
 
-const saveLocalStoragePixels = () => {
-  localStorage.setItem('pixelBoard', frame.innerHTML);
-}
 const reloadPixels = () => {
   frame.innerHTML = localStorage.getItem('pixelBoard');
-}
-
-const saveLocalStorage = () => {
-  localStorage.setItem('colorPalette', section.innerHTML);
-}
+};
 
 const reloadColors = () => {
   section.innerHTML = localStorage.getItem('colorPalette');
-}
+};
 
 const saveLocalStorageBoard = () => {
   localStorage.setItem('boardSize', inputText.value);
-}
+};
 
 const reloadBoard = () => {
   frame.innerHTML = localStorage.getItem('boardSize');
-}
+};
 
 window.onload = () => {
   if (localStorage.getItem('colorPalette') === null) {
@@ -171,10 +166,8 @@ window.onload = () => {
   }
   if (localStorage.getItem('pixelBoard') === null) {
     saveLocalStoragePixels();
-    console.log(null)
   } else {
     reloadPixels();
-    console.log('alterado');
   }
   if (localStorage.getItem('boardSize') === null) {
     saveLocalStorageBoard();
@@ -182,38 +175,32 @@ window.onload = () => {
     reloadBoard();
     reloadPixels();
   }
-}
+};
 
-const inputText = document.querySelector('#board-size');
-
-
-const pixelFrame1 = (quantidade) => {
-  for (let index = 0; index < quantidade; index += 1) {
-    const pixelInline = document.createElement('div');
-    pixelInline.className = 'inline';
-    pixelInline.style.backgroundColor = 'white';
-    for (let index1 = 0; index1 < quantidade; index1 += 1) {
-      const pixelBlock = document.createElement('div');
-      pixelBlock.className = 'pixel';
-      pixelBlock.style.backgroundColor = 'white';
-      pixelInline.appendChild(pixelBlock);
+const pixelFrame1 = (number) => {
+  for (let index = 0; index < number; index += 1) {
+    const Linha = document.createElement('div');
+    Linha.className = 'inline';
+    Linha.style.backgroundColor = 'white';
+    for (let index1 = 0; index1 < number; index1 += 1) {
+      const cell = document.createElement('div');
+      cell.className = 'pixel';
+      cell.style.backgroundColor = 'white';
+      Linha.appendChild(cell);
     }
-    frame.appendChild(pixelInline);
+    frame.appendChild(Linha);
   }
-}
+};
 
-
-
-// Este código é refenrente ao requisito 13, porém não está apagando a matriz anterior!
 const boardSize = () => {
   if (inputText.value > 0) {
-    let teste = document.getElementById('pixel-board');
-    let cansado = teste.lastElementChild
+    const teste = document.getElementById('pixel-board');
+    let cansado = teste.lastElementChild;
     for (let index = 0; index < 5; index += 1) {
       teste.removeChild(cansado);
       cansado = teste.lastElementChild;
     }
-    if (inputText.value <= 5 ) {
+    if (inputText.value <= 5) {
       pixelFrame1(5);
     }
     if (inputText.value > 5 && inputText.value <= 50) {
@@ -228,6 +215,6 @@ const boardSize = () => {
   saveLocalStorageBoard();
   saveLocalStorage();
   saveLocalStoragePixels();
-}
+};
 
 buttonInput.addEventListener('click', boardSize);
