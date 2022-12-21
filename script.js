@@ -1,8 +1,8 @@
 const body = document.querySelector('body');
-const titulo = document.createElement('h1');
-body.appendChild(titulo);
-titulo.innerText = 'Paleta de Cores';
-titulo.id = 'title';
+const title = document.createElement('h1');
+body.appendChild(title);
+title.innerText = 'Paleta de Cores';
+title.id = 'title';
 
 const section = document.createElement('section');
 section.id = 'color-palette';
@@ -38,18 +38,18 @@ const frame = document.createElement('section');
 frame.id = 'pixel-board';
 body.appendChild(frame);
 
-const pixelFrame = (quantidade) => {
+const matrix = (quantidade) => {
   for (let index = 0; index < quantidade; index += 1) {
-    const pixelInline = document.createElement('div');
-    pixelInline.className = 'inline';
-    pixelInline.style.backgroundColor = 'white';
+    const lines = document.createElement('div');
+    lines.className = 'inline';
+    lines.style.backgroundColor = 'white';
     for (let index1 = 0; index1 < quantidade; index1 += 1) {
-      const pixelBlock = document.createElement('div');
-      pixelBlock.className = 'pixel';
-      pixelBlock.style.backgroundColor = 'white';
-      pixelInline.appendChild(pixelBlock);
+      const pixels = document.createElement('div');
+      pixels.className = 'pixel';
+      pixels.style.backgroundColor = 'white';
+      lines.appendChild(pixels);
     }
-    frame.appendChild(pixelInline);
+    frame.appendChild(lines);
   }
 };
 
@@ -57,29 +57,36 @@ const saveLocalStorage = () => {
   localStorage.setItem('colorPalette', section.innerHTML);
 };
 
-pixelFrame(5);
-let corGenerate1 = 'yellow';
-let corGenerate2 = 'blue';
-let corGenerate3 = 'red';
-let corGenerate = '#';
+matrix(5);
+let firstColorCreated = 'yellow';
+let secondColorCreated = 'blue';
+let thirdColorCreated = 'red';
+let createdColor = '#';
+let counter = 0;
+
+const applyingColor = () => {
+  if (counter === 1) {
+    firstColorCreated = createdColor;
+  } else if (counter === 2) {
+    secondColorCreated = createdColor;
+  } else {
+    thirdColorCreated = createdColor;
+  }
+};
+
 function randomColors() {
   const string = '0123456789ABCDEF';
-  const newColor = document.querySelectorAll('.color').length;
-  for (let index = 1; index < newColor; index += 1) {
+  const clickReceiver = document.querySelectorAll('.color').length;
+  for (let index = 1; index < clickReceiver; index += 1) {
     const colorDiv = document.querySelectorAll('.color')[index];
     for (let index1 = 0; index1 < 6; index1 += 1) {
-      corGenerate += string[Math.floor(Math.random() * 16)];
-      colorDiv.style.background = corGenerate;
-    }
-    if (index === 1) {
-      corGenerate1 = corGenerate;
-    } else if (index === 2) {
-      corGenerate2 = corGenerate;
-    } else {
-      corGenerate3 = corGenerate;
+      createdColor += string[Math.floor(Math.random() * 16)];
+      colorDiv.style.background = createdColor;
+      counter = index;
     }
     saveLocalStorage();
-    corGenerate = '#';
+    applyingColor();
+    createdColor = '#';
   }
 }
 
@@ -91,36 +98,33 @@ colorBlack.className = selectedCor;
 
 let selectedColor = 'black';
 
-const remetente = (event) => {
-  const alvo = event.target;
-  if (alvo === section.firstChild) {
-    alvo.className = selectedCor;
-    section.firstChild.nextSibling.className = 'color';
-    section.firstChild.nextSibling.nextSibling.className = 'color';
-    section.firstChild.nextSibling.nextSibling.nextSibling.className = 'color';
+const identifyingTheTarget = (param) => {
+  const target = param;
+  if (target === section.firstChild) {
+    target.className = selectedCor;
     selectedColor = 'black';
   }
-  if (alvo === section.firstChild.nextSibling) {
-    alvo.className = selectedCor;
-    section.firstChild.className = 'color';
-    section.firstChild.nextSibling.nextSibling.className = 'color';
-    section.firstChild.nextSibling.nextSibling.nextSibling.className = 'color';
-    selectedColor = corGenerate1;
+  if (target === section.firstChild.nextSibling) {
+    target.className = selectedCor;
+    selectedColor = firstColorCreated;
   }
-  if (alvo === section.firstChild.nextSibling.nextSibling) {
-    alvo.className = selectedCor;
-    section.firstChild.className = 'color';
-    section.firstChild.nextSibling.className = 'color';
-    section.firstChild.nextSibling.nextSibling.nextSibling.className = 'color';
-    selectedColor = corGenerate2;
+  if (target === section.firstChild.nextSibling.nextSibling) {
+    target.className = selectedCor;
+    selectedColor = secondColorCreated;
   }
-  if (alvo === section.firstChild.nextSibling.nextSibling.nextSibling) {
-    alvo.className = selectedCor;
-    section.firstChild.className = 'color';
-    section.firstChild.nextSibling.className = 'color';
-    section.firstChild.nextSibling.nextSibling.className = 'color';
-    selectedColor = corGenerate3;
+  if (target === section.firstChild.nextSibling.nextSibling.nextSibling) {
+    target.className = selectedCor;
+    selectedColor = thirdColorCreated;
   }
+};
+
+const remetente = (event) => {
+  const alvo = event.target;
+  section.firstChild.className = 'color';
+  section.firstChild.nextSibling.className = 'color';
+  section.firstChild.nextSibling.nextSibling.className = 'color';
+  section.firstChild.nextSibling.nextSibling.nextSibling.className = 'color';
+  identifyingTheTarget(alvo);
 };
 
 const inputText = document.querySelector('#board-size');
@@ -139,7 +143,7 @@ frame.addEventListener('click', (event) => {
 
 buttonClear.addEventListener('click', () => {
   localStorage.clear();
-  location.reload();
+  window.location.reload();
 });
 
 const reloadPixels = () => {
@@ -158,12 +162,7 @@ const reloadBoard = () => {
   frame.innerHTML = localStorage.getItem('boardSize');
 };
 
-window.onload = () => {
-  if (localStorage.getItem('colorPalette') === null) {
-    saveLocalStorage();
-  } else {
-    reloadColors();
-  }
+const verification = () => {
   if (localStorage.getItem('pixelBoard') === null) {
     saveLocalStoragePixels();
   } else {
@@ -177,38 +176,46 @@ window.onload = () => {
   }
 };
 
-const pixelFrame1 = (number) => {
+window.onload = () => {
+  if (localStorage.getItem('colorPalette') === null) {
+    saveLocalStorage();
+  } else {
+    reloadColors();
+  }
+  verification();
+};
+
+const recreatePixels = (number) => {
+  frame.innerHTML = '';
   for (let index = 0; index < number; index += 1) {
-    const Linha = document.createElement('div');
-    Linha.className = 'inline';
-    Linha.style.backgroundColor = 'white';
+    const recreateLines = document.createElement('div');
+    recreateLines.className = 'inline';
+    recreateLines.style.backgroundColor = 'white';
     for (let index1 = 0; index1 < number; index1 += 1) {
-      const cell = document.createElement('div');
-      cell.className = 'pixel';
-      cell.style.backgroundColor = 'white';
-      Linha.appendChild(cell);
+      const recreateCells = document.createElement('div');
+      recreateCells.className = 'pixel';
+      recreateCells.style.backgroundColor = 'white';
+      recreateLines.appendChild(recreateCells);
     }
-    frame.appendChild(Linha);
+    frame.appendChild(recreateLines);
+  }
+};
+
+const verificationOnInput = () => {
+  if (inputText.value <= 5) {
+    recreatePixels(5);
+  }
+  if (inputText.value > 5 && inputText.value <= 50) {
+    recreatePixels(inputText.value);
+  }
+  if (inputText.value > 50) {
+    recreatePixels(50);
   }
 };
 
 const boardSize = () => {
   if (inputText.value > 0) {
-    const teste = document.getElementById('pixel-board');
-    let cansado = teste.lastElementChild;
-    for (let index = 0; index < 5; index += 1) {
-      teste.removeChild(cansado);
-      cansado = teste.lastElementChild;
-    }
-    if (inputText.value <= 5) {
-      pixelFrame1(5);
-    }
-    if (inputText.value > 5 && inputText.value <= 50) {
-      pixelFrame1(inputText.value);
-    }
-    if (inputText.value > 50) {
-      pixelFrame1(50);
-    }
+    verificationOnInput();
   } else {
     alert('Board inválido!');
   }
