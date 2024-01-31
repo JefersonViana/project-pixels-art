@@ -136,9 +136,11 @@ const saveLocalStoragePixels = () => {
 section.addEventListener('click', remetente);
 
 frame.addEventListener('click', (event) => {
-  const selecionado = event.target;
-  selecionado.style.backgroundColor = selectedColor;
-  saveLocalStoragePixels();
+  if (event.target.className !== 'inline') {
+    const selecionado = event.target;
+    selecionado.style.backgroundColor = selectedColor;
+    saveLocalStoragePixels();
+  }
 });
 
 buttonClear.addEventListener('click', () => {
