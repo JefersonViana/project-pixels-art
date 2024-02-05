@@ -1,38 +1,45 @@
 const body = document.querySelector('body');
 const title = document.createElement('h1');
-body.appendChild(title);
-title.innerText = 'Paleta de Cores';
+const header = document.createElement('header');
+const section = document.createElement('section');
+const section_1 = document.createElement('section');
+const section_2 = document.createElement('section');
+section_2.className = 'config'
+const button = document.createElement('button');
+title.innerText = 'Pixels Art';
 title.id = 'title';
 
-const section = document.createElement('section');
 section.id = 'color-palette';
-body.appendChild(section);
-const button = document.createElement('button');
-body.appendChild(button);
+body.appendChild(header);
+header.appendChild(title)
+header.appendChild(section)
+section.appendChild(section_1)
+header.appendChild(section_2)
 button.innerText = 'Cores aleatórias';
 button.id = 'button-random-color';
 
 const input = document.createElement('input');
 input.id = 'board-size';
 input.type = 'number';
-input.min = 1;
-input.value = 0;
+input.min = 5;
+input.value = 5;
 const buttonInput = document.createElement('button');
 buttonInput.id = 'generate-board';
-buttonInput.innerText = 'VQV';
-body.appendChild(input);
-body.appendChild(buttonInput);
+buttonInput.innerText = 'Criar matriz';
+section_2.appendChild(input);
+section_2.appendChild(buttonInput);
 
 const buttonClear = document.createElement('button');
 buttonClear.id = 'clear-board';
-buttonClear.innerText = 'Limpar';
-body.appendChild(buttonClear);
+buttonClear.innerText = 'Limpar matriz';
+section_2.appendChild(buttonClear);
 
-for (let index = 0; index < 4; index += 1) {
+for (let index = 0; index < 5; index += 1) {
   const div = document.createElement('div');
   div.className = 'color';
-  section.appendChild(div);
+  section_1.appendChild(div);
 }
+section.appendChild(button)
 
 const frame = document.createElement('section');
 frame.id = 'pixel-board';
@@ -42,7 +49,7 @@ const matrix = (quantidade) => {
   for (let index = 0; index < quantidade; index += 1) {
     const lines = document.createElement('div');
     lines.className = 'inline';
-    lines.style.backgroundColor = 'white';
+    lines.style.backgroundColor = 'transparent';
     for (let index1 = 0; index1 < quantidade; index1 += 1) {
       const pixels = document.createElement('div');
       pixels.className = 'pixel';
@@ -61,6 +68,7 @@ matrix(5);
 let firstColorCreated = 'yellow';
 let secondColorCreated = 'blue';
 let thirdColorCreated = 'red';
+let fourthColorCreated = 'white';
 let createdColor = '#';
 let counter = 0;
 
@@ -76,7 +84,7 @@ const applyingColor = () => {
 
 function randomColors() {
   const string = '0123456789ABCDEF';
-  const clickReceiver = document.querySelectorAll('.color').length;
+  const clickReceiver = document.querySelectorAll('.color').length - 1;
   for (let index = 1; index < clickReceiver; index += 1) {
     const colorDiv = document.querySelectorAll('.color')[index];
     for (let index1 = 0; index1 < 6; index1 += 1) {
@@ -100,30 +108,22 @@ let selectedColor = 'black';
 
 const identifyingTheTarget = (param) => {
   const target = param;
-  if (target === section.firstChild) {
-    target.className = selectedCor;
-    selectedColor = 'black';
-  }
-  if (target === section.firstChild.nextSibling) {
-    target.className = selectedCor;
-    selectedColor = firstColorCreated;
-  }
-  if (target === section.firstChild.nextSibling.nextSibling) {
-    target.className = selectedCor;
-    selectedColor = secondColorCreated;
-  }
-  if (target === section.firstChild.nextSibling.nextSibling.nextSibling) {
-    target.className = selectedCor;
-    selectedColor = thirdColorCreated;
+  const listColors = ['black', firstColorCreated, secondColorCreated, thirdColorCreated, 'white'];
+  const listDivsChildren = section_1.children;
+  for (let i = 0; i < listDivsChildren.length; i++) {
+    if (target === listDivsChildren[i]) {
+      target.className = selectedCor;
+      selectedColor = listColors[i];
+    }
   }
 };
 
 const remetente = (event) => {
   const alvo = event.target;
-  section.firstChild.className = 'color';
-  section.firstChild.nextSibling.className = 'color';
-  section.firstChild.nextSibling.nextSibling.className = 'color';
-  section.firstChild.nextSibling.nextSibling.nextSibling.className = 'color';
+  const listDivsChildren = section_1.children;
+  for (let i = 0; i < listDivsChildren.length; i++) {
+    listDivsChildren[i].className = 'color';
+  }
   identifyingTheTarget(alvo);
 };
 
@@ -133,7 +133,7 @@ const saveLocalStoragePixels = () => {
   localStorage.setItem('pixelBoard', frame.innerHTML);
 };
 
-section.addEventListener('click', remetente);
+section_1.addEventListener('click', remetente);
 
 frame.addEventListener('click', (event) => {
   if (event.target.className !== 'inline') {
@@ -192,7 +192,7 @@ const recreatePixels = (number) => {
   for (let index = 0; index < number; index += 1) {
     const recreateLines = document.createElement('div');
     recreateLines.className = 'inline';
-    recreateLines.style.backgroundColor = 'white';
+    recreateLines.style.backgroundColor = 'transparent';
     for (let index1 = 0; index1 < number; index1 += 1) {
       const recreateCells = document.createElement('div');
       recreateCells.className = 'pixel';
